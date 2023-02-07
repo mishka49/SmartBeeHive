@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for service in services %}
+        <div class="list-group" style="width:400px; margin: 10px 10px 10px 10px">
+            <a href="/add_subscription/?service={{ service.name }}" class="list-group-item list-group-item-action active" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Услуга {{ service.name }}</h5>
+                    <small>оформлено {{ count_service.0 }}</small>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}

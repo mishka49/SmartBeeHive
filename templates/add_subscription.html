@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="/send_subscription_form/" style="width: 400px" onload="calculateCoast()" method="POST">
+        {% csrf_token %}
+        <div class="mb-3" style="margin: 20px">
+            <label for="exampleFormControlInput1" class="form-label">Улей</label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="hive" id="hive">
+                {% for hive in hives %}
+                    <option value={{ hive.id }}>Улей {{ hive.id }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3" style="margin: 20px">
+            <label for="exampleFormControlInput1" class="form-label">Услуга</label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="service" name="service"
+                    onchange="calculateCoast()">
+                {% for service in services %}
+                    <option value={{ service.name }}
+                                    {% if select_serv == service.name %}
+                                        selected
+                                    {% endif %}>
+                        {{ service.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3" style="margin: 20px">
+            <label for="exampleFormControlInput1" class="form-label">Срок</label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="range" name="range"
+                    onchange="calculateCoast()">
+                <option value="1">1 месяц</option>
+                <option value="5">5 месяцев</option>
+                <option value="12">12 месяцев</option>
+            </select>
+        </div>
+        <div class="mb-3" style="margin: 20px">
+            <label for="exampleFormControlInput1" class="form-label">Цена за месяц: </label>
+            <label for="floatingInputValue" id="coast"></label>
+        </div>
+        <div style="justify-content: flex-end">
+            <input type="submit" value="Оформить" style="margin: 20px 0px 0px 275px"
+                   onclick="alert('Подписка оформленна')">
+        </div>
+
+    </form>
+{% endblock %}
+{% block script %}
+    <script>
+        function calculateCoast() {
+            let result = document.getElementById('coast')
+            let service_coast = document.getElementById('service')
+            let range = document.getElementById('range')
+
+            let coast = service_coast.value * range.value
+            result.innerHTML = coast
+        }
+    </script>
+{% endblock %}

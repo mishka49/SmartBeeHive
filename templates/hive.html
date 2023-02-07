@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content_nav %}
+    <nav class="nav flex-column">
+        {% for hive in hives %}
+            <a class="nav-link" href="/hive/?hive_id={{ hive.id }}">Hive{{ hive.id }}</a>
+        {% endfor %}
+    </nav>
+{% endblock %}
+{% block content %}
+    <canvas id="weightChart" width="400" height="100"></canvas>
+    <canvas id="tempChart" width="400" height="100"></canvas>
+    <canvas id="humidChart" width="400" height="100"></canvas>
+{% endblock %}
+{% block script %}
+
+    <script>
+        // jquery function
+
+        $(document).ready(function () {
+            let ctx = document.getElementById('weightChart').getContext('2d')
+            let myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{%for date in dates%} '{{date}}', {%endfor%}],
+                    datasets: [{
+                        label: 'Вес улья',
+                        data: [{%for weight in weights%} {{weight}}, {%endfor%}],
+                        backgroundColor: [
+                            {#'rgba(255, 99, 132, 0.2)',#}
+                            {#'rgba(54, 162, 235, 0.2)',#}
+                            {#'rgba(255, 206, 86, 0.2)',#}
+                            {#'rgba(75, 192, 192, 0.2)',#}
+                            {#'rgba(153, 102, 255, 0.2)',#}
+                            'rgba(100, 159, 255, 0.2)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            let ctx = document.getElementById('tempChart').getContext('2d')
+            let myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{%for date in dates%} '{{date}}', {%endfor%}],
+                    datasets: [{
+                        label: 'Температура в улье',
+                        data: [{%for temp in temperature%} {{temp}}, {%endfor%}],
+                        backgroundColor: [
+                            {#'rgba(255, 99, 132, 0.2)',#}
+                            {#'rgba(54, 162, 235, 0.2)',#}
+                            {#'rgba(255, 206, 86, 0.2)',#}
+                            'rgba(75, 192, 192, 0.2)',
+                            {#'rgba(153, 102, 255, 0.2)',#}
+                            {#'rgba(100, 159, 255, 0.2)'#}
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            let ctx = document.getElementById('humidChart').getContext('2d')
+            let myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{%for date in dates%} '{{date}}', {%endfor%}],
+                    datasets: [{
+                        label: 'Влажность воздуха в улье',
+                        data: [{%for humid in humidity%} {{humid}}, {%endfor%}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            {#'rgba(54, 162, 235, 0.2)',#}
+                            {#'rgba(255, 206, 86, 0.2)',#}
+                            {#'rgba(75, 192, 192, 0.2)',#}
+                            {#'rgba(153, 102, 255, 0.2)',#}
+                            {#'rgba(100, 159, 255, 0.2)'#}
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
+

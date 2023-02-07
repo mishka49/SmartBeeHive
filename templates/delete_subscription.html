@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="list-group" style="width:300px; margin: 10px 10px 10px 10px">
+        <a href="/subscription_delete/?subscription_id={{ subscription.pk }}"
+           class="list-group-item list-group-item-action active" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Улей {{ subscription.hive_id }}</h5>
+                <small>осталось
+                    {% for sub,date in dates.items %}
+                        {% if sub == subscription.pk %}
+                            {{ date }}
+                        {% endif %}
+                    {% endfor %}дн</small>
+            </div>
+            <p class="mb-1">{{ subscription.service }}</p>
+            <small>Стоимость: {{ subscription.coast }}</small>
+        </a>
+        <div style="display: flex; justify-content: flex-start;">
+
+            <a class="btn btn-primary"
+               href="/subscription_delete/?subscription_id={{ subscription.pk }}" style="margin: 10px">Delete</a>
+            <a class="btn btn-primary"
+               href="/subscription/" style="margin: 10px">Cancel</a>
+        </div>
+    </div>
+
+{% endblock %}

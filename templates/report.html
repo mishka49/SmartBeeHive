@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content_nav %}
+    <nav class="nav flex-column">
+        {% for hive in hives %}
+            <a class="nav-link" href="/report/?hive_id={{ hive.id }}">Hive{{ hive.id }}</a>
+        {% endfor %}
+    </nav>
+{% endblock %}
+
+{% block content %}
+    {% for report in reports %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                Улей {{ report.hive_id }}
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Средняя температура: {{ report.aver_temp }} С</li>
+                <li class="list-group-item">Средняя влажность воздуха: {{ report.aver_humid }} %</li>
+                <li class="list-group-item">Изменение веса: {{ report.change_weight }} кг</li>
+                <li class="list-group-item">Дата создания: {{ report.end_date|date:"Y-m-d" }}</li>
+                <li class="list-group-item">
+                    <a class="btn btn-primary"
+                       href="/download/?filename={{ report.end_date|date:"Y-m-d"}}_{{ report.hive_id }}.txt">Скачать</a>
+                </li>
+            </ul>
+        </div>
+    {% endfor %}
+{% endblock %}
